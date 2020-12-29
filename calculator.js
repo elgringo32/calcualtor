@@ -1,42 +1,74 @@
-function add (num1,num2) {
-	return num1 + num2;
-	
-}
-
-function subtract (num1,num2) {
-	return num1 - num2;
-}
-
-
-function multiply (num1,num2) {
-	return num1 * num2;
-}
-
-function divide(num1, num2) {
-	return num1/num2;
-	
-}
+var executionStart = false;
+var storedValue = '';
+var operatorId = '';
 
 var calcView = document.getElementById('calc-view');
-var buttons = [...document.getElementsByClassName('number')];
+var numButtons = [...document.getElementsByClassName('number')];
 
-buttons.forEach(button => button.addEventListener('click', function(){
-	console.log(typeof calcView.innerText);
 
-	if (calcView.innerText === '0') {
+numButtons.forEach(button => button.addEventListener('click', function() {
+	console.log(storedValue);
+	console.log(operatorId);
+	if (calcView.innerText === '0' && !executionStart) {
+		calcView.innerText = button.innerHTML;
+	
+	}
+	else if (calcView.innerText !='0' && executionStart) {
 		calcView.innerText = button.innerHTML;
 	}
 	else {
 		calcView.innerText = calcView.innerText.concat(button.innerHTML);
 	}
-	
-}
-));
+}));
 
 var operators = [...document.getElementsByClassName('operator')];
 
 operators.forEach(operator => operator.addEventListener('click', function(){
-	calcView.innerText = "0";
-}));
+	if (storedValue && operatorId) {
+		calcView.innerText = execute(storedValue, operatorId, calcView.innerText)
+		storedValue = calcView.innerText;
+	}
+	if (storedValue === '') {
+		storedValue = calcView.innerText;
+		calcView.innerText = "0";
+	}
+	operatorId = operator.innerText;
+	}
+));
 
+var clearView = document.getElementById('calc-clear');
 
+clearView.addEventListener('click', function(){
+		calcView.innerText = 0;
+		storedValue = '';
+		executionStart = false;	
+	}
+);
+
+var equal = document.getElementById('calc-equal');
+
+equal.addEventListener('click', function(){
+		currentValue = calcView.innerText;
+		if (operatorId != '') {
+			calcView.innerText = execute(storedValue, operatorId, currentValue)
+		}
+		storedValue = calcView.innerText;
+		operatorId = ''
+	}
+);
+
+function execute(storedValue, operator, currentValue) {
+	executionStart = true;
+	if (operator === "+") {
+		return +storedValue + +currentValue;
+	}
+	else if (operator === "-") {
+		return storedValue - currentValue;
+	}
+	else if (operator === "*") {
+		return storedValue * currentValue;
+	}
+	else if (operator === "/") {
+		return storedValue / currentValue;
+	}
+}
