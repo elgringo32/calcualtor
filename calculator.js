@@ -17,13 +17,26 @@ function divide(num1, num2) {
 	
 }
 
-var calcView = document.getElementsByClassName('calc-view');
-var buttons = [...document.getElementsByClassName('btn')];
-console.log();
+var calcView = document.getElementById('calc-view');
+var buttons = [...document.getElementsByClassName('number')];
 
 buttons.forEach(button => button.addEventListener('click', function(){
-    calcView[0].innerText = "update";
+	console.log(typeof calcView.innerText);
+
+	if (calcView.innerText === '0') {
+		calcView.innerText = button.innerHTML;
+	}
+	else {
+		calcView.innerText = calcView.innerText.concat(button.innerHTML);
+	}
+	
 }
 ));
+
+var operators = [...document.getElementsByClassName('operator')];
+
+operators.forEach(operator => operator.addEventListener('click', function(){
+	calcView.innerText = "0";
+}));
 
 
