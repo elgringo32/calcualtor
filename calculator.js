@@ -4,8 +4,6 @@ var operatorId = '';
 
 var calcView = document.getElementById('calc-view');
 var numButtons = [...document.getElementsByClassName('number')];
-
-
 numButtons.forEach(button => button.addEventListener('click', function() {
 	console.log(storedValue);
 	console.log(operatorId);
@@ -35,6 +33,20 @@ operators.forEach(operator => operator.addEventListener('click', function(){
 	operatorId = operator.innerText;
 	}
 ));
+
+var decimal = document.getElementById('calc-decimal');
+
+decimal.addEventListener('click', function(){
+	console.log(calcView.innerText.includes('.'));
+		if (!calcView.innerText.includes('.')) {
+			calcView.innerText = calcView.innerText.concat(decimal.innerHTML);
+		}
+		else {
+			return
+		}
+
+	}
+);
 
 var clearView = document.getElementById('calc-clear');
 
